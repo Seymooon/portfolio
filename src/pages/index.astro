@@ -1,11 +1,100 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const services = [
+  {
+    title: "Basic Support",
+    items: [
+      { name: "Inbox & Communication Management", desc: "Handles emails and messages in an organized and professional way so nothing is missed." },
+      { name: "Calendar & Scheduling Support", desc: "Manages appointments, meetings, reminders, and scheduling to keep your day organized." }
+    ]
+  },
+  {
+    title: "Operations Support",
+    items: [
+      { name: "Task & Workflow Assistance", desc: "Organizing workflows and managing tasks using productivity tools like Google Workspace." },
+      { name: "Recruitment Coordination", desc: "Supports scheduling, screening, follow-ups, and candidate coordination." }
+    ]
+  },
+  {
+    title: "Business Support",
+    items: [
+      { name: "Social Media Assistance", desc: "Content planning, scheduling, and engagement support." },
+      { name: "Client Outreach", desc: "Professional outreach and follow-ups via email and messaging platforms." }
+    ]
+  }
+];
+
+const reviews = [
+  { name: "Sarah J.", text: "John is incredibly organized and reliable. A lifesaver for my inbox!" },
+  { name: "Mike T.", text: "The workflow management he implemented saved us hours every week." },
+  { name: "Elena R.", text: "Professional, proactive, and always keeps things on schedule." },
+  { name: "David L.", text: "Highly recommend his recruitment coordination services." }
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Home" activePage="home">
+  <main class="wrap pt-12 md:pt-20 pb-32">
+    
+    <section class="hero-section pt-4 md:pt-12 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+      
+      <div class="text-side text-left">
+        <span class="text-xs font-mono tracking-widest text-accent uppercase block mb-3">Focus on what matters. I'll handle the details.</span>
+        <h1 class="text-5xl md:text-6xl font-display font-bold text-paper mb-6 leading-tight">John Simon Gutang</h1>
+        <p class="text-lg text-paper-dim font-body mb-8 leading-relaxed text-justify">
+          I provide reliable virtual assistant support focused on organization, communication, and workflow management. 
+          I handle inbox management, scheduling, and administrative tasks to keep daily operations structured 
+          and efficient so you can focus on higher priority work.
+        </p>
+        
+        <div class="flex items-center justify-start gap-4 mb-12">
+          <a href="/skills" class="px-6 py-3 bg-accent text-ink rounded font-medium transition-opacity hover:opacity-90">View Portfolio</a>
+          <a href="/contact" class="px-6 py-3 border border-line text-paper rounded hover:bg-surface transition-colors">Let's Connect</a>
+        </div>
+
+        <div class="carousel-wrapper w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]">
+          <div class="carousel-track flex gap-6">
+            {[...reviews, ...reviews].map((review) => (
+              <div class="min-w-[280px] p-4 border border-line bg-surface rounded-md flex-shrink-0">
+                <p class="text-paper-dim text-sm italic mb-2">"{review.text}"</p>
+                <p class="text-accent text-xs font-bold uppercase tracking-wider">— {review.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div class="cards-grid grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
+        {services.map((group) => (
+          <div class="card p-6 border border-line bg-surface rounded-md hover:border-accent transition-colors">
+            <h3 class="text-paper font-display text-2xl mb-6 font-bold border-b border-line pb-4">{group.title}</h3>
+            <ul class="space-y-6">
+              {group.items.map((item) => (
+                <li>
+                  <h4 class="text-accent font-semibold text-sm uppercase tracking-wider mb-2">{item.name}</h4>
+                  <p class="text-paper-dim text-sm leading-relaxed">{item.desc}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="h-32 w-full"></div>
+  </main>
 </Layout>
+
+<style>
+  .carousel-track {
+    /* Reduced to 5s for a much faster speed */
+    animation: scroll 5s linear infinite;
+  }
+  .carousel-track:hover {
+    animation-play-state: paused;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+</style>

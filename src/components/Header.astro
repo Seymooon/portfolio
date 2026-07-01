@@ -1,0 +1,255 @@
+---
+const { activePage } = Astro.props;
+---
+<header class="site-header">
+  <div class="wrap nav-row">
+    <a href="/" class="logo">
+      <span class="logo-mark">JSG</span>
+    </a>
+    
+    <!-- Desktop Links -->
+    <nav class="nav-links hidden md:flex" aria-label="Main Navigation">
+      <a href="/" class={activePage === 'home' ? 'active' : ''}>Home</a>
+      <a href="/skills" class={activePage === 'skills' ? 'active' : ''}>Skills</a>
+      <a href="/about" class={activePage === 'about' ? 'active' : ''}>About</a>
+      <a href="/contact" class={activePage === 'contact' ? 'active' : ''}>Contact</a>
+    </nav>
+
+    <!-- Desktop Controls -->
+    <div class="hidden md:flex items-center gap-4">
+      <button class="theme-toggle-btn" id="desktopThemeToggle" aria-label="Toggle Theme">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+      </button>
+      <a href="mailto:johnsimongutang@gmail.com" class="nav-cta">Email Me</a>
+    </div>
+
+    <!-- Mobile Controls -->
+    <div class="mobile-controls-wrapper">
+      <button class="theme-toggle-btn" id="mobileThemeToggle" aria-label="Toggle Theme">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+      </button>
+      <button class="menu-toggle" id="hamburgerToggleBtn" aria-label="Toggle Menu" aria-expanded="false" onclick="const menu = document.getElementById('mobileMenu'); this.classList.toggle('active'); menu.classList.toggle('open');">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Overlay (NOW A SIBLING OUTSIDE THE HEADER) -->
+<div class="mobile-overlay-menu" id="mobileMenu">
+  <button 
+    class="menu-close-btn" 
+    aria-label="Close Menu" 
+    onclick="document.getElementById('mobileMenu').classList.remove('open'); document.getElementById('hamburgerToggleBtn').classList.remove('active');"
+  >
+    ✕
+  </button>
+  
+  <nav class="mobile-nav-links">
+    <a href="/" class={activePage === 'home' ? 'mobile-active' : ''}>Home</a>
+    <a href="/skills" class={activePage === 'skills' ? 'mobile-active' : ''}>Skills</a>
+    <a href="/about" class={activePage === 'about' ? 'mobile-active' : ''}>About</a>
+    <a href="/contact" class={activePage === 'contact' ? 'mobile-active' : ''}>Contact</a>
+  </nav>
+</div>
+
+<!-- First Entry Selection Overlay Popover Prompt Overlay Modal -->
+<div id="themePromptModal" class="theme-prompt-overlay hidden-prompt">
+  <div class="theme-prompt-box">
+    <h3>Choose Your Theme</h3>
+    <p>Welcome! Please select your preferred appearance mode for the website.</p>
+    <div class="prompt-buttons">
+      <button id="promptLightModeBtn" class="prompt-btn light-btn">☀️ Light Mode</button>
+      <button id="promptDarkModeBtn" class="prompt-btn dark-btn">🌙 Dark Mode</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Base Scoped Mobile Overrides */
+  .mobile-controls-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 9999 !important; /* Forces the entire button alignment to top layer */
+  }
+
+  /* Desktop breakpoint rules */
+  @media (min-width: 768px) {
+    .mobile-controls-wrapper {
+      display: none !important;
+    }
+    .mobile-overlay-menu {
+      display: none !important;
+    }
+  }
+
+  .nav-row {
+    position: relative;
+    z-index: 700;
+  }
+
+  .theme-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, border-color 0.2s;
+    height: 38px;
+    width: 38px;
+    position: relative;
+    z-index: 800;
+  }
+  .theme-toggle-btn:hover {
+    background-color: var(--surface-2);
+    border-color: var(--accent);
+  }
+
+  :root[data-theme="dark"] .sun-icon { display: block; }
+  :root[data-theme="dark"] .moon-icon { display: none; }
+  :root[data-theme="light"] .sun-icon { display: none; }
+  :root[data-theme="light"] .moon-icon { display: block; }
+
+  .theme-prompt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(17, 20, 26, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+  }
+  :root[data-theme="light"] .theme-prompt-overlay {
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+  .theme-prompt-overlay.hidden-prompt {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .theme-prompt-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 2.5rem;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+  .theme-prompt-box h3 {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--paper);
+  }
+  .theme-prompt-box p {
+    font-size: 0.95rem;
+    color: var(--paper-dim);
+    margin-bottom: 1.75rem;
+  }
+  .prompt-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .prompt-btn {
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s, color 0.2s;
+    border: 1px solid transparent;
+  }
+  .prompt-btn:hover {
+    transform: translateY(-2px);
+  }
+  .light-btn {
+    background-color: #ffffff;
+    color: #1b2621;
+    border-color: #cbd5cb;
+  }
+  .dark-btn {
+    background-color: #181d26;
+    color: #f4f6fa;
+    border-color: #2d3545;
+  }
+
+  .menu-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+    position: relative;
+    z-index: 100000 !important; /* Completely isolates it from overlay elements */
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hamburger-bar {
+    width: 24px;
+    height: 2px;
+    background-color: var(--paper);
+    transition: all 0.25s ease-in-out;
+    pointer-events: none; /* Prevents spans from interrupting click target coordinates */
+  }
+  .menu-toggle.active .hamburger-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .menu-toggle.active .hamburger-bar:nth-child(2) { opacity: 0; }
+  .menu-toggle.active .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+</style>
+
+<script is:inline>
+  function applyThemePreference() {
+    const theme = localStorage.getItem('user-portfolio-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+  }
+  applyThemePreference();
+  document.addEventListener('astro:after-swap', applyThemePreference);
+</script>
+
+<script>
+  function setupHeaderInteractions() {
+    const modal = document.getElementById('themePromptModal');
+    const lightBtn = document.getElementById('promptLightModeBtn');
+    const darkBtn = document.getElementById('promptDarkModeBtn');
+    const desktopToggle = document.getElementById('desktopThemeToggle');
+    const mobileToggle = document.getElementById('mobileThemeToggle');
+
+    if (!localStorage.getItem('user-portfolio-theme') && modal) {
+      modal.classList.remove('hidden-prompt');
+    }
+
+    function saveTheme(themeName: string) {
+      document.documentElement.setAttribute('data-theme', themeName);
+      localStorage.setItem('user-portfolio-theme', themeName);
+      if (modal) modal.classList.add('hidden-prompt');
+    }
+    
+    function performToggle() {
+      const current = document.documentElement.getAttribute('data-theme');
+      saveTheme(current === 'light' ? 'dark' : 'light');
+    }
+
+    if (lightBtn) lightBtn.addEventListener('click', () => saveTheme('light'));
+    if (darkBtn) darkBtn.addEventListener('click', () => saveTheme('dark'));
+    if (desktopToggle) desktopToggle.addEventListener('click', performToggle);
+    if (mobileToggle) mobileToggle.addEventListener('click', performToggle);
+  }
+
+  document.addEventListener('astro:page-load', setupHeaderInteractions);
+</script>

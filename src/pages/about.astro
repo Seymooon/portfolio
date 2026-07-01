@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About Me" activePage="about">
+  <main class="py-16">
+    <div class="wrap max-w-3xl">
+      <!-- Section Header -->
+      <span class="text-xs font-mono tracking-widest text-mint uppercase block mb-3">// ARCHIVE_FILE: OVERVIEW.md</span>
+      <h1 class="text-4xl md:text-5xl font-display font-bold text-paper mb-8">About John Simon</h1>
+      
+      <!-- Timeline Decorative Ruler -->
+      <div class="ruler static mb-8" role="presentation"></div>
+
+      <!-- Main Biography Layout -->
+      <div class="space-y-6 text-lg text-paper-dim font-body leading-relaxed">
+        <p>
+          I am a digital creator specializing in visual flow, cinematic sequencing, and clean code architecture. With a background firmly rooted in post-production video editing, I look at interfaces through the lens of a timeline—focusing on rhythm, pacing, and clean structure.
+        </p>
+        
+        <p>
+          Over the past few years, I have expanded my toolkit from video timelines to source code, designing front-end experiences that are as fast and responsive as a clean cut. I believe that good design shouldn't just look stunning—it should feel seamless to interact with.
+        </p>
+      </div>
+
+      <!-- Experience Log Timeline -->
+      <h2 class="text-2xl font-display font-bold text-paper mt-16 mb-6">Experience Logs</h2>
+      
+      <div class="timeline-track">
+        <div class="timeline-item">
+          <span class="timecode">2024 — PRESENT // ACTIVE</span>
+          <h3 class="text-xl font-bold text-paper">Freelance Media Designer &amp; Dev</h3>
+          <p class="text-paper-dim text-sm mt-1">Crafting custom portfolio systems, brand showreels, and component layouts for independent clients.</p>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timecode">2022 — 2024 // COMPLED</span>
+          <h3 class="text-xl font-bold text-paper">Lead Video Editor @ MotionFrame Studios</h3>
+          <p class="text-paper-dim text-sm mt-1">Supervised pacing, audio design blueprints, and color grades across short-form promotional content.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
