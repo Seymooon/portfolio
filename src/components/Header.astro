@@ -67,46 +67,43 @@ const { activePage } = Astro.props;
 </script>
 
 <script>
+  let initialized = false;
+
   function setupHeaderInteractions() {
+    if (initialized) return;
+    initialized = true;
+
     const modal = document.getElementById('themePromptModal');
     const lightBtn = document.getElementById('promptLightModeBtn');
     const darkBtn = document.getElementById('promptDarkModeBtn');
     const desktopToggle = document.getElementById('desktopThemeToggle');
     const mobileToggle = document.getElementById('mobileThemeToggle');
 
+    if (!modal) return;
+
     const saved = localStorage.getItem('user-portfolio-theme');
 
-if (!saved && modal) {
-  modal.classList.remove('hidden-prompt');
-}
+    if (!saved) {
+      modal.classList.remove('hidden-prompt');
+    }
 
     function saveTheme(themeName) {
       document.documentElement.setAttribute('data-theme', themeName);
       localStorage.setItem('user-portfolio-theme', themeName);
-      if (modal) modal.classList.add('hidden-prompt');
+      modal.classList.add('hidden-prompt');
     }
-    function performToggle() {
+
+    function toggleTheme() {
       const current = document.documentElement.getAttribute('data-theme');
       saveTheme(current === 'light' ? 'dark' : 'light');
     }
 
-    if (lightBtn) lightBtn.addEventListener('click', () => saveTheme('light'));
-    if (darkBtn) darkBtn.addEventListener('click', () => saveTheme('dark'));
-    if (desktopToggle) desktopToggle.addEventListener('click', performToggle);
-    if (mobileToggle) mobileToggle.addEventListener('click', performToggle);
+    lightBtn?.addEventListener('click', () => saveTheme('light'));
+    darkBtn?.addEventListener('click', () => saveTheme('dark'));
+    desktopToggle?.addEventListener('click', toggleTheme);
+    mobileToggle?.addEventListener('click', toggleTheme);
   }
-  function setupHeaderInteractions() {
-  const modal = document.getElementById('themePromptModal');
-  const lightBtn = document.getElementById('promptLightModeBtn');
-  const darkBtn = document.getElementById('promptDarkModeBtn');
-  const desktopToggle = document.getElementById('desktopThemeToggle');
-  const mobileToggle = document.getElementById('mobileThemeToggle');
 
-  if (!modal) return;
-
-  // ✅ ADD THIS BLOCK (prevents duplicate listeners)
-  if (window.__headerThemeInit) return;
-  window.__headerThemeInit = true;
-  setupHeaderInteractions();
-document.addEventListener('astro:page-load', setupHeaderInteractions);
+  document.addEventListener('DOMContentLoaded', setupHeaderInteractions);
+  document.addEventListener('astro:after-swap', setupHeaderInteractions);
 </script>
