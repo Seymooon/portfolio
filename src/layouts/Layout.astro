@@ -7,6 +7,7 @@ import { ClientRouter } from 'astro:transitions';
 const { title, description, activePage } = Astro.props;
 const pageDescription = description ?? "Portfolio of John Simon Gutang";
 ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,30 +15,27 @@ const pageDescription = description ?? "Portfolio of John Simon Gutang";
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title} — John Simon Gutang</title>
   <meta name="description" content={pageDescription} />
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
+
   <script is:inline>
     const theme = (() => {
-      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-        return localStorage.getItem('theme');
-      }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      const stored = typeof localStorage !== 'undefined'
+        ? localStorage.getItem('theme')
+        : null;
+
+      return stored ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     })();
-    
+
     if (theme === "dark") {
-
-  document.documentElement.classList.add("dark");
-  document.documentElement.setAttribute("data-theme","dark");
-
-} else {
-
-  document.documentElement.classList.remove("dark");
-  document.documentElement.setAttribute("data-theme","light");
-
-}
+      document.documentElement.classList.add("dark");
+      document.documentElement.setAttribute("data-theme","dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.setAttribute("data-theme","light");
+    }
   </script>
 
   <ClientRouter />
@@ -50,6 +48,7 @@ const pageDescription = description ?? "Portfolio of John Simon Gutang";
       top: 0;
       z-index: 500;
     }
+
     .logo-mark {
       background: var(--accent) !important;
       color: var(--ink) !important;
@@ -64,11 +63,11 @@ const pageDescription = description ?? "Portfolio of John Simon Gutang";
 <body class="bg-white dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-300">
 
   <Header activePage={activePage} />
-  
-  <slot />  
-  
+
+  <slot />
+
   <Footer />
 
-  <script is:inline src="/main.js"></script> 
+  <script is:inline src="/main.js"></script>
 </body>
 </html>
