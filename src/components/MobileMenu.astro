@@ -41,13 +41,13 @@ const { activePage } = Astro.props;
   .menu-toggle { 
     background: transparent; border: none; cursor: pointer; 
     padding: 10px; display: flex; flex-direction: column; 
-    gap: 6px; z-index: 3000; transition: opacity 0.3s ease;
+    gap: 6px; z-index: 100001; transition: opacity 0.3s ease;
   }
 
   .mobile-overlay-menu { 
     display: none; position: fixed; top: 0; left: 0; 
     width: 100%; height: 100%; background: var(--surface); 
-    z-index: 2500; flex-direction: column; 
+    z-index: 100000; flex-direction: column; 
     align-items: flex-end; 
     justify-content: flex-start; 
     padding-top: 80px; padding-right: 40px; 
@@ -60,7 +60,7 @@ const { activePage } = Astro.props;
     font-size: 2.5rem; background: none; border: none; 
     cursor: pointer; color: var(--text);
     padding: 20px; 
-    z-index: 3000; 
+    z-index: 100002;
   }
 
   .mobile-nav-links { 

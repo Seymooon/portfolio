@@ -1,68 +1,518 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from "../../layouts/Layout.astro";
+
+const gallery = [
+  {
+    type: "image",
+    src: "/media/1.jpg",
+    title: "Project One",
+  },
+  {
+    type: "image",
+    src: "/media/2.jpg",
+    title: "Project Two",
+  },
+  {
+    type: "video",
+    src: "/media/3.mp4",
+    title: "Instagram Reel",
+  },
+  {
+    type: "image",
+    src: "/media/4.jpg",
+    title: "Poster Design",
+  },
+  {
+    type: "image",
+    src: "/media/5.jpg",
+    title: "Podcast Artwork",
+  },
+  {
+    type: "video",
+    src: "/media/6.mp4",
+    title: "Advertisement",
+  },
+  {
+    type: "image",
+    src: "/media/7.jpg",
+    title: "Photography",
+  },
+];
 ---
 
 <Layout title="Media Gallery" activePage="skills">
-  <main class="py-16">
-    <div class="wrap max-w-4xl mx-auto px-6">
-      <a href="/skills" class="text-sm font-mono text-paper-dim hover:text-[#A3C1AD] transition-colors">&larr; Back to Tracks</a>
-      <h1 class="text-4xl font-display font-bold mt-4 mb-8 text-white">Media Production</h1>
+<main
+  class="min-h-screen transition-colors duration-300"
+  style="background: var(--ink); color: var(--paper);"
+>
 
-      <div id="display-area" class="w-full aspect-video bg-gray-900 rounded-lg overflow-hidden border border-gray-700 shadow-xl mb-8 flex items-center justify-center">
-        <p class="text-gray-500">Select an item below to preview</p>
-      </div>
+<section class="mx-auto max-w-7xl px-8 pt-16 pb-24">
 
-      <div class="carousel-wrapper">
-        <h3 class="text-xl font-mono text-[#A3C1AD] mb-4">Gallery</h3>
-        
-        <div id="carousel" class="flex gap-4 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide">
-          
-          <button class="carousel-item min-w-[200px] h-32 bg-gray-800 rounded-lg border-2 border-transparent hover:border-[#A3C1AD] transition-all snap-start" 
-                  data-type="video" data-src="/path-to-video.mp4">
-            <span class="text-xs text-white">Video Sample</span>
-          </button>
+<a
+  href="/skills"
+  class="text-sm font-mono mb-4 inline-block transition-colors duration-200"
+  style="color: var(--paper-dim);"
+  onmouseover="this.style.color='var(--accent)'"
+  onmouseout="this.style.color='var(--paper-dim)'"
+>
+  ← GO BACK
+</a>
 
-          <button class="carousel-item min-w-[200px] h-32 bg-gray-800 rounded-lg border-2 border-transparent hover:border-[#A3C1AD] transition-all snap-start" 
-                  data-type="image" data-src="/path-to-image.jpg">
-            <span class="text-xs text-white">GFX Sample 01</span>
-          </button>
-          
-          <button class="carousel-item min-w-[200px] h-32 bg-gray-800 rounded-lg border-2 border-transparent hover:border-[#A3C1AD] transition-all snap-start" 
-                  data-type="image" data-src="/path-to-image2.jpg">
-            <span class="text-xs text-white">GFX Sample 02</span>
-          </button>
+<h1
+  class="mb-4 text-center text-6xl font-display font-bold transition-colors"
+  style="color: var(--paper);"
+>
+Media Gallery
+</h1>
 
-        </div>
-      </div>
-    </div>
-  </main>
+<p
+  class="mx-auto mb-16 max-w-3xl text-center text-lg leading-relaxed"
+  style="color: var(--paper-dim);"
+>
+A few samples of creative media work, featuring graphic design, publication materials, and video editing.
+</p>
 
-  <script>
-    const displayArea = document.getElementById('display-area');
-    const items = document.querySelectorAll('.carousel-item');
+<div
+id="carousel"
+class="relative h-[700px] overflow-visible"
+>
 
-    items.forEach(item => {
-      item.addEventListener('click', () => {
-        const type = item.getAttribute('data-type');
-        const src = item.getAttribute('data-src');
+{
+gallery.map((item,index)=>(
 
-        if (type === 'video') {
-          displayArea.innerHTML = `<video class="w-full h-full object-cover" controls autoplay><source src="${src}" type="video/mp4"></video>`;
-        } else {
-          displayArea.innerHTML = `<img src="${src}" class="w-full h-full object-contain" alt="Project Sample" />`;
-        }
-      });
+<div
+  class="carousel-card absolute left-1/2 top-1/2
+         w-[340px]
+         h-[480px]
+         rounded-3xl
+         overflow-hidden
+         shadow-2xl
+         cursor-pointer
+         select-none"
+  style="
+    background: var(--surface);
+    border: 1px solid var(--line);
+  "
+  data-index={index}
+  data-type={item.type}
+  data-src={item.src}
+  data-title={item.title}
+>
+
+{
+item.type==="image"
+? (
+
+<img
+src={item.src}
+alt={item.title}
+class="h-full w-full object-cover"
+/>
+
+)
+: (
+
+<video
+src={item.src}
+muted
+playsinline
+preload="metadata"
+class="h-full w-full object-cover"
+></video>
+
+)
+}
+
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+<div class="absolute bottom-5 left-5">
+
+<h3
+  class="font-semibold"
+  style="color: var(--paper);"
+>
+{item.title}
+</h3>
+
+</div>
+
+</div>
+
+))
+}
+
+</div>
+
+</section>
+
+</main>
+
+<style>
+
+#lightbox{
+
+opacity:0;
+
+transition:opacity .3s;
+
+}
+
+#lightbox.flex{
+
+opacity:1;
+
+display:flex;
+
+}
+
+#lightbox img,
+#lightbox video{
+
+animation:popup .25s ease;
+
+}
+
+@keyframes popup{
+
+from{
+
+opacity:0;
+transform:scale(.9);
+
+}
+
+to{
+
+opacity:1;
+transform:scale(1);
+
+}
+
+}
+
+.carousel-card {
+
+left:50%;
+top:40%;
+
+transform:translate(-50%,-50%);
+
+will-change:transform,opacity;
+
+backface-visibility:hidden;
+
+transform-style:preserve-3d;
+
+transition:
+box-shadow .25s ease,
+filter .25s ease;
+
+box-shadow:
+0 20px 60px rgba(0,0,0,.15);
+
+}
+
+:root[data-theme="dark"] .carousel-card{
+
+box-shadow:
+0 20px 60px rgba(0,0,0,.45);
+
+}
+
+</style>
+
+<div
+  id="lightbox"
+  class="fixed inset-0 hidden items-center justify-center bg-black/90 dark:bg-black/90 backdrop-blur-md"
+  style="z-index:99999;"
+>
+
+  <button
+    id="close-lightbox"
+    class="absolute right-8 top-8 z-50 text-5xl text-white transition hover:text-emerald-400"
+  >
+    ×
+  </button>
+
+  <div
+    id="lightbox-content"
+    class="relative flex max-h-[90vh] max-w-[90vw] items-center justify-center"
+  >
+  </div>
+
+</div>
+
+<script is:inline>
+
+document.addEventListener("astro:page-load", () => {
+
+const carousel = document.getElementById("carousel");
+const cards = [...document.querySelectorAll(".carousel-card")];
+
+
+
+let position = 0;
+let target = 0;
+
+let dragging = false;
+let startX = 0;
+
+const total = cards.length;
+
+let paused = false;
+let speed = 0.006;
+let hoveredCard = null;
+
+// ----------------------
+// Pause on hover
+// ----------------------
+
+cards.forEach((card) => {
+
+    card.addEventListener("mouseenter", () => {
+
+        paused = true;
+        hoveredCard = card;
+
     });
-  </script>
 
-  <style>
-    /* Hides scrollbar for a seamless look */
-    .scrollbar-hide::-webkit-scrollbar {
-        display: none;
+    card.addEventListener("mouseleave", () => {
+
+        paused = false;
+        hoveredCard = null;
+
+        // Give the carousel a little push when leaving
+        speed = 0.03;
+
+    });
+
+});
+
+// ----------------------
+// Mouse Drag
+// ----------------------
+
+carousel.addEventListener("mousedown", (e) => {
+  dragging = true;
+  startX = e.clientX;
+});
+
+window.addEventListener("mouseup", () => {
+  dragging = false;
+});
+
+window.addEventListener("mousemove", (e) => {
+
+  if (!dragging) return;
+
+  const dx = e.clientX - startX;
+
+  target -= dx * 0.012;
+
+  startX = e.clientX;
+
+});
+
+// ----------------------
+// Touch Drag
+// ----------------------
+
+carousel.addEventListener("touchstart", (e)=>{
+
+  dragging = true;
+  startX = e.touches[0].clientX;
+
+},{passive:true});
+
+window.addEventListener("touchmove",(e)=>{
+
+  if(!dragging) return;
+
+  const dx = e.touches[0].clientX-startX;
+
+  target -= dx*0.012;
+
+  startX = e.touches[0].clientX;
+
+},{passive:true});
+
+window.addEventListener("touchend",()=>{
+
+  dragging=false;
+
+});
+
+// ----------------------
+// Animation
+// ----------------------
+
+function animate(){
+
+    if (!paused && !dragging) {
+
+    target += speed;
+
+    // Smoothly return to the normal speed
+    speed += (0.006 - speed) * 0.08;
+
+}
+
+    position += (target-position)*0.08;
+
+    cards.forEach((card,index)=>{
+
+        let offset = index-position;
+
+        while(offset < -total/2) offset += total;
+        while(offset > total/2) offset -= total;
+
+        const d = Math.abs(offset);
+
+        const x = Math.sin(offset * 0.6) * 560;
+
+        const y = Math.pow(d,1.4)*14;
+
+        let scale =
+0.65 +
+Math.pow(Math.max(0, Math.cos(offset * 0.45)), 1.4) * 0.35;
+
+if (card === hoveredCard) {
+
+    scale *= 1.2;
+
+}
+
+        const rotate = offset * -25;
+
+        const opacity = Math.max(
+  0,
+  1 - Math.pow(d / (total / 2), 2)
+);
+
+        const brightness = 1-d*.12;
+
+        const z = Math.max(1, Math.floor((10 - d) * 10));
+
+        card.style.transform = `
+        translate(-50%,-50%)
+        translateX(${x}px)
+        translateY(${y}px)
+        scale(${scale})
+        rotateY(${rotate}deg)
+        `;
+
+        card.style.opacity = opacity;
+
+        card.style.zIndex = z;
+
+        card.style.filter = `
+        brightness(${brightness})
+        `;
+
+    });
+
+    requestAnimationFrame(animate);
+
+}
+
+requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+        animate();
+    });
+});
+
+// --------------------
+// Lightbox
+// --------------------
+
+const lightbox = document.getElementById("lightbox");
+const content = document.getElementById("lightbox-content");
+const closeBtn = document.getElementById("close-lightbox");
+
+function closeLightbox(){
+
+    const video = content.querySelector("video");
+
+    if(video){
+
+        video.pause();
+
     }
-    .scrollbar-hide {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+
+    content.innerHTML="";
+
+    lightbox.classList.remove("flex");
+    lightbox.classList.add("hidden");
+
+}
+
+cards.forEach(card=>{
+
+    card.addEventListener("click",()=>{
+
+        const type = card.dataset.type;
+        const src = card.dataset.src;
+
+        content.innerHTML="";
+
+        if(type==="image"){
+
+            const img=document.createElement("img");
+
+            img.src=src;
+
+            img.className="max-h-[90vh] max-w-[90vw] rounded-2xl shadow-2xl";
+
+            content.appendChild(img);
+
+        }
+
+        if(type==="video"){
+
+            const video=document.createElement("video");
+
+            video.src=src;
+
+            video.controls=true;
+
+            video.autoplay=true;
+
+            video.className="max-h-[90vh] max-w-[90vw] rounded-2xl shadow-2xl";
+
+            content.appendChild(video);
+
+        }
+
+        lightbox.classList.remove("hidden");
+        lightbox.classList.add("flex");
+
+    });
+
+});
+
+closeBtn.addEventListener("click",closeLightbox);
+
+lightbox.addEventListener("click",(e)=>{
+
+    if(e.target===lightbox){
+
+        closeLightbox();
+
     }
-  </style>
+
+});
+
+window.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+
+        closeLightbox();
+
+    }
+
+});
+
+});
+
+</script>
 </Layout>

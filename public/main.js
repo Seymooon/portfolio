@@ -25,14 +25,28 @@ const initPortfolio = () => {
     });
   }
 
-  // 2. THEME TOGGLE LOGIC (Connects to your tailwind.config.mjs)
-  const themeToggle = document.querySelector('#theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    });
-  }
+  // 2. THEME TOGGLE LOGIC
+const themeToggle = document.querySelector('#theme-toggle');
+
+if (themeToggle) {
+
+  themeToggle.addEventListener('click', () => {
+
+    const isDark = document.documentElement.classList.toggle("dark");
+
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDark ? "dark" : "light"
+    );
+
+    localStorage.setItem(
+      "theme",
+      isDark ? "dark" : "light"
+    );
+
+  });
+
+}
 
   // 3. REVEAL ANIMATIONS (Intersection Observer)
   const revealElements = document.querySelectorAll('.reveal, .reveal-group > *');

@@ -221,7 +221,16 @@ main { flex: 1; }
   transition: background 0.3s ease;
 }
 .timeline-item:hover::before { background: var(--accent); }
-.timecode { font-family: var(--font-mono); color: var(--highlight); font-size: 0.85rem; display: block; margin-bottom: 0.5rem; }
+.timecode {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
 
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 2rem; }
 .gallery-item {
@@ -253,7 +262,7 @@ main { flex: 1; }
   background: var(--ink); 
   border-top: 1px solid var(--line); 
   /* Increase the top padding to 6rem (96px) to create the buffer */
-  padding: 6rem 0 3rem 0; 
+  padding: 2rem 0 3rem 0;
   margin-top: auto; 
   transition: background-color 0.3s; 
 }
