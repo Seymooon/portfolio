@@ -1,0 +1,68 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Media Gallery" activePage="skills">
+  <main class="py-16">
+    <div class="wrap max-w-4xl mx-auto px-6">
+      <a href="/skills" class="text-sm font-mono text-paper-dim hover:text-[#A3C1AD] transition-colors">&larr; Back to Tracks</a>
+      <h1 class="text-4xl font-display font-bold mt-4 mb-8 text-white">Media Production</h1>
+
+      <div id="display-area" class="w-full aspect-video bg-gray-900 rounded-lg overflow-hidden border border-gray-700 shadow-xl mb-8 flex items-center justify-center">
+        <p class="text-gray-500">Select an item below to preview</p>
+      </div>
+
+      <div class="carousel-wrapper">
+        <h3 class="text-xl font-mono text-[#A3C1AD] mb-4">Gallery</h3>
+        
+        <div id="carousel" class="flex gap-4 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide">
+          
+          <button class="carousel-item min-w-[200px] h-32 bg-gray-800 rounded-lg border-2 border-transparent hover:border-[#A3C1AD] transition-all snap-start" 
+                  data-type="video" data-src="/path-to-video.mp4">
+            <span class="text-xs text-white">Video Sample</span>
+          </button>
+
+          <button class="carousel-item min-w-[200px] h-32 bg-gray-800 rounded-lg border-2 border-transparent hover:border-[#A3C1AD] transition-all snap-start" 
+                  data-type="image" data-src="/path-to-image.jpg">
+            <span class="text-xs text-white">GFX Sample 01</span>
+          </button>
+          
+          <button class="carousel-item min-w-[200px] h-32 bg-gray-800 rounded-lg border-2 border-transparent hover:border-[#A3C1AD] transition-all snap-start" 
+                  data-type="image" data-src="/path-to-image2.jpg">
+            <span class="text-xs text-white">GFX Sample 02</span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const displayArea = document.getElementById('display-area');
+    const items = document.querySelectorAll('.carousel-item');
+
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        const type = item.getAttribute('data-type');
+        const src = item.getAttribute('data-src');
+
+        if (type === 'video') {
+          displayArea.innerHTML = `<video class="w-full h-full object-cover" controls autoplay><source src="${src}" type="video/mp4"></video>`;
+        } else {
+          displayArea.innerHTML = `<img src="${src}" class="w-full h-full object-contain" alt="Project Sample" />`;
+        }
+      });
+    });
+  </script>
+
+  <style>
+    /* Hides scrollbar for a seamless look */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+  </style>
+</Layout>

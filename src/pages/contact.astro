@@ -4,35 +4,61 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Contact" activePage="contact">
   <main class="py-16">
-    <div class="wrap max-w-2xl">
-      <span class="text-xs font-mono tracking-widest text-coral uppercase block mb-3">// COMMUNICATIONS_PANEL</span>
-      <h1 class="text-4xl md:text-5xl font-display font-bold text-paper mb-4">Let's Connect</h1>
-      <p class="text-lg text-paper-dim mb-8">Reach out instantly via the visual channels below or use the direct mail engine link.</p>
+    <div class="wrap max-w-2xl mx-auto px-6">
+      
+      <span class="text-xs font-mono tracking-widest text-paper-dim uppercase block mb-3">
+        Focus on what matters. I'll handle the details.
+      </span>
+      
+      <h1 class="text-4xl md:text-5xl font-display font-bold text-paper mb-4">
+        Let's Connect
+      </h1>
+      
+      <p class="text-lg text-paper-dim mb-10">
+        Reach out instantly via the visual channels below or use the direct mail engine link.
+      </p>
 
-      <div class="ruler static mb-12" role="presentation"></div>
-
-      <div class="space-y-8">
+      <div class="space-y-12">
         <div>
-          <a href="mailto:johnsimongutang@gmail.com" class="btn btn-primary bg-coral text-ink font-mono px-8 py-4 rounded-md font-bold text-center inline-block hover:opacity-90 transition-opacity">
+          <a href="mailto:johnsimongutang@gmail.com" 
+             class="inline-block bg-accent hover:bg-accent-dim text-ink font-bold px-8 py-4 rounded-md text-center transition-all duration-300 shadow-sm hover:shadow-md">
             Launch Email: johnsimongutang@gmail.com
           </a>
-          <p class="text-xs font-mono text-paper-dim mt-3">
-            or save my email for later: <span class="text-gold select-all">johnsimongutang@gmail.com</span>
+          
+          <p class="text-xs font-mono text-paper-dim mt-4">
+            or save my email for later: 
+            <span class="text-paper font-bold select-all cursor-pointer hover:underline">
+              johnsimongutang@gmail.com
+            </span>
           </p>
         </div>
 
-        <div class="pt-6 border-t border-line space-y-4">
-          <h3 class="text-sm font-mono text-paper-dim uppercase tracking-wider">[ Alternative Instant Channels ]</h3>
-          <div class="flex flex-col gap-3">
-            <a href="https://www.linkedin.com/feed/" target="_blank" class="text-paper hover:text-mint transition-colors font-body text-lg flex items-center gap-2">
-              &rarr; LinkedIn Profile
+        <div class="pt-8 border-t border-line">
+          <h3 class="text-xs font-mono text-paper-dim uppercase tracking-widest mb-6">
+            [ Alternative Instant Channels ]
+          </h3>
+          
+          <div class="flex flex-col gap-4">
+            <a href="https://www.linkedin.com/in/john-simon-gutang-5aab77234/" target="_blank" rel="noopener noreferrer" 
+               class="group text-paper hover:text-accent transition-colors font-body text-lg flex items-center gap-3">
+              <span class="opacity-50 group-hover:opacity-100 transition-opacity">&rarr;</span> LinkedIn Profile
             </a>
-            <a href="https://t.me/Fiochmhar" target="_blank" class="text-paper hover:text-coral transition-colors font-body text-lg flex items-center gap-2">
-              &rarr; Telegram: @Fiochmhar
+
+            <a href="https://t.me/Fiochmhar" target="_blank" rel="noopener noreferrer" 
+               class="group text-paper hover:text-accent transition-colors font-body text-lg flex items-center gap-3">
+              <span class="opacity-50 group-hover:opacity-100 transition-opacity">&rarr;</span> Telegram: @Fiochmhar
             </a>
-            <a href="https://wa.me/639959305442" target="_blank" class="text-paper hover:text-gold transition-colors font-body text-lg flex items-center gap-2">
-              &rarr; WhatsApp: +63 995 930 5442
+
+            <a href="https://wa.me/639959305442" target="_blank" rel="noopener noreferrer" 
+               class="group text-paper hover:text-accent transition-colors font-body text-lg flex items-center gap-3">
+              <span class="opacity-50 group-hover:opacity-100 transition-opacity">&rarr;</span> WhatsApp: +63 995 930 5442
             </a>
+
+            <div class="group text-paper font-body text-lg flex items-center gap-3 cursor-default">
+              <span class="opacity-50 group-hover:opacity-100 transition-opacity">&rarr;</span> 
+              <span>Discord:</span> 
+              <span class="select-all cursor-pointer hover:text-accent transition-colors font-medium">dystopian_dreamer</span>
+            </div>
           </div>
         </div>
       </div>

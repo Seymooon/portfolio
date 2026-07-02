@@ -1,0 +1,102 @@
+---
+const { activePage } = Astro.props;
+---
+
+<button class="menu-toggle" id="hamburgerToggleBtn" aria-label="Toggle Menu">
+  <span class="hamburger-bar"></span>
+  <span class="hamburger-bar"></span>
+  <span class="hamburger-bar"></span>
+</button>
+
+<div class="mobile-overlay-menu" id="mobileMenu">
+  <button class="menu-close-btn" id="closeMenuBtn" aria-label="Close Menu">✕</button>
+  <nav class="mobile-nav-links">
+    <a href="/" class={activePage === 'home' ? 'mobile-active' : ''}>Home</a>
+    <a href="/skills" class={activePage === 'skills' ? 'mobile-active' : ''}>Skills</a>
+    <a href="/about" class={activePage === 'about' ? 'mobile-active' : ''}>About</a>
+    <a href="/contact" class={activePage === 'contact' ? 'mobile-active' : ''}>Contact</a>
+  </nav>
+</div>
+
+<style>
+  /* Define the variable for the hamburger color */
+  .hamburger-bar { 
+    width: 25px; height: 3px; 
+    background-color: var(--burger-color); /* Uses the variable */
+    border-radius: 2px; 
+    transition: all 0.3s ease-in-out; 
+  }
+
+  /* Light Mode: Use a darker shade for better visibility */
+  :root[data-theme="light"] {
+    --burger-color: #4a675d; 
+  }
+
+  /* Dark Mode: Use the lighter sage green you preferred */
+  :root[data-theme="dark"] {
+    --burger-color: #7d9e7d;
+  }
+
+  /* --- All your other existing styles --- */
+  .menu-toggle { 
+    background: transparent; border: none; cursor: pointer; 
+    padding: 10px; display: flex; flex-direction: column; 
+    gap: 6px; z-index: 3000; transition: opacity 0.3s ease;
+  }
+
+  .mobile-overlay-menu { 
+    display: none; position: fixed; top: 0; left: 0; 
+    width: 100%; height: 100%; background: var(--surface); 
+    z-index: 2500; flex-direction: column; 
+    align-items: flex-end; 
+    justify-content: flex-start; 
+    padding-top: 80px; padding-right: 40px; 
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .mobile-overlay-menu.open { display: flex; opacity: 1; }
+
+  .menu-close-btn { 
+    position: absolute; top: 20px; right: 20px; 
+    font-size: 2.5rem; background: none; border: none; 
+    cursor: pointer; color: var(--text);
+    padding: 20px; 
+    z-index: 3000; 
+  }
+
+  .mobile-nav-links { 
+    display: flex; flex-direction: column; gap: 2rem; align-items: flex-end; 
+  }
+  .mobile-nav-links a { 
+    text-decoration: none; font-size: 2rem; 
+    color: var(--text); font-weight: 600; 
+  }
+  .mobile-nav-links a.mobile-active { color: var(--accent); }
+</style>
+
+<script>
+  function setupMobileMenu() {
+    const btn = document.getElementById('hamburgerToggleBtn');
+    const menu = document.getElementById('mobileMenu');
+    const closeBtn = document.getElementById('closeMenuBtn');
+    const links = document.querySelectorAll('.mobile-nav-links a');
+
+    if (!btn || !menu) return;
+
+    const openMenu = () => {
+      menu.classList.add('open');
+      btn.style.opacity = '0';
+      btn.style.pointerEvents = 'none';
+    };
+
+    const closeMenu = () => {
+      menu.classList.remove('open');
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    };
+
+    btn.addEventListener('click', openMenu);
+    closeBtn?.addEventListener('click', closeMenu);
+    links.forEach(link => link.addEventListener('click', closeMenu));
+  }
+  document.addEventListener('astro:page-load', setupMobileMenu);
+</script>

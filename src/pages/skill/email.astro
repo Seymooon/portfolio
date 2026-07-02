@@ -1,0 +1,155 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Email Archive" activePage="skills">
+  <main class="py-16">
+    <div class="wrap max-w-5xl mx-auto px-6">
+      <a
+  href="/skills"
+  class="text-sm font-mono text-paper-dim hover:text-accent transition-colors mb-4 block">&larr; Back to Tracks</a>
+      
+      <h1 class="text-4xl font-display font-bold mb-2 text-paper">Inbox Archive</h1>
+      <p class="text-paper-dim mb-8">Simulated email examples demonstrating professional communication and inbox management.</p>
+
+      <div class="flex flex-col md:flex-row gap-6 min-h-[700px] mb-16">
+        <div class="w-full md:w-1/3 flex flex-col gap-4">
+          <div class="p-4 bg-surface rounded-lg border border-line">
+            <h3 class="text-xs font-mono text-accent uppercase tracking-wider mb-3">Filter by Label</h3>
+            <div id="filter-container" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <div id="email-list" class="flex-1 overflow-y-auto space-y-2 pr-2"></div>
+        </div>
+
+        <div
+id="email-display"
+class="flex-1 bg-surface p-8 rounded-lg border border-line overflow-y-auto"
+>
+          <div class="text-center py-20 text-paper-dim italic">Select an email to view</div>
+        </div>
+      </div>
+
+      <div class="bg-surface border border-line rounded-lg p-6">
+        <h2 class="text-2xl font-display font-bold text-paper mb-2">Data Management Table</h2>
+        <p class="text-paper-dim mb-6">A sample dataset I built to show how I streamline workflow tracking and improve operational efficiency. You can open the full sheet to have a better view.</p>
+
+        <div class="flex gap-3 mb-4">
+          <button id="toggle-btn" class="px-4 py-2 bg-accent text-ink font-bold text-sm rounded hover:opacity-90 transition-opacity">
+            View: Products
+          </button>
+          <a id="open-sheet-link" href="https://docs.google.com/spreadsheets/d/1UDISI8quVRc3n1QT2GkashCikXvGapFkOJgWtxEpy1U/edit" target="_blank" class="px-4 py-2 bg-surface text-paper text-sm rounded border border-line hover:border-accent transition-colors">
+            Open Full Sheet
+          </a>
+        </div>
+
+        <div class="w-full h-[500px] overflow-hidden rounded border border-line">
+          <iframe id="sheet-iframe" src="" class="w-full h-full border-0" title="Google Sheet Preview"></iframe>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script is:inline>
+  function initPage() {
+    // --- Email Logic ---
+    const emails = [
+      {
+        id: 1, subject: "Interview Schedule Confirmation", sender: "example1@portfolio.samples", date: "June 30, 2026", tags: ["Recruitment", "Confirmed", "High Priority"], body: `Greetings!\n\nYour interview is scheduled for Friday, July 10, 2026, at 2:00 PM EST. A Google Calendar invitation has been sent to your email and includes all the meeting details. \n\nPlease review and accept the invitation to ensure the event is added to your calendar and that you have easy access to the meeting. To help us begin on time, we kindly ask that you join the meeting at least 5 minutes before your scheduled interview. This will allow time to confirm your audio and video settings before we get started.\n\nIf you have any questions or experience any issues accessing the calendar invitation or meeting link, please don't hesitate to reach out. We look forward to speaking with you and wish you the best in your interview.\n\nSincerity woven with hope,\nJohn Simon Gutang`
+      },
+      {
+        id: 2, subject: "Client Proposal Follow-up", sender: "example2@portfolio.samples", date: "June 29, 2026", tags: ["Client Outreach"], body: `Hi there,\n\nI hope you're doing well. I wanted to follow up on the proposal I sent recently and see if you've had a chance to review it. If you have any questions or would like to discuss any part of it, I'd be happy to help.\n\nThank you for your time and consideration. I look forward to hearing your thoughts.\n\nSincerity woven with hope,\nJohn Simon Gutang`
+      },
+      {
+        id: 3, subject: "Google Workspace Setup", sender: "example3@portfolio.samples", date: "June 28, 2026", tags: ["Operations", "Completed"], body: `Hi Simon!\n\nI’ve completed the Google Workspace setup for the new marketing campaign. The shared folder in Google Drive has been organized, the content calendar in Google Sheets has been updated, and the team meeting has been scheduled through Google Calendar with all supporting documents attached.\n\nEverything is ready for the team to begin work.\n\nLet me know if you'd like any final adjustments before we move forward.\n\nSincerity woven with hope,\nJohn Simon Gutang`
+      }
+    ];
+
+    let activeFilters = [];
+    const filterContainer = document.getElementById('filter-container');
+    const emailList = document.getElementById('email-list');
+    const display = document.getElementById('email-display');
+
+    function render() {
+      renderFilters();
+      renderList();
+    }
+
+    function renderFilters() {
+      if (!filterContainer) return;
+      filterContainer.innerHTML = '';
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'All';
+      allBtn.className = `px-3 py-1 text-xs rounded-full border transition-all ${activeFilters.length === 0 ? 'bg-accent text-ink border-accent' : 'bg-surface text-paper border-line hover:border-accent'}`;
+      allBtn.onclick = () => { activeFilters = []; render(); };
+      filterContainer.appendChild(allBtn);
+      const allTags = [...new Set(emails.flatMap(e => e.tags))];
+      allTags.forEach(tag => {
+        const btn = document.createElement('button');
+        const isActive = activeFilters.includes(tag);
+        btn.className = `px-3 py-1 text-xs rounded-full border transition-all ${isActive ? 'bg-accent text-ink border-accent' : 'bg-surface text-paper border-line hover:border-accent'}`;
+        btn.textContent = tag;
+        btn.onclick = () => {
+          if (activeFilters.includes(tag)) activeFilters = activeFilters.filter(t => t !== tag);
+          else activeFilters.push(tag);
+          render();
+        };
+        filterContainer.appendChild(btn);
+      });
+    }
+
+    function renderList() {
+      if (!emailList) return;
+      emailList.innerHTML = '';
+      const filtered = activeFilters.length === 0 ? emails : emails.filter(e => e.tags.some(t => activeFilters.includes(t)));
+      filtered.forEach(email => {
+        const item = document.createElement('button');
+        item.className = "w-full text-left p-4 rounded-lg bg-surface border border-line hover:border-accent transition-colors";
+        item.innerHTML = `
+  <div class="font-bold text-paper text-sm">${email.subject}</div>
+  <div class="text-xs text-paper-dim">${email.tags.join(', ')}</div>
+`;
+        item.onclick = () => showEmail(email);
+        emailList.appendChild(item);
+      });
+    }
+
+    function showEmail(email) {
+      if (!display) return;
+      display.innerHTML = `<h2 class="text-2xl font-bold mb-2 text-paper">${email.subject}</h2><p class="text-xs text-paper-dim mb-4">${email.sender} | ${email.date}</p><div class="flex gap-2 mb-6">${email.tags.map(t => `<span class="px-2 py-1 bg-accent/15 text-accent text-xs font-bold rounded border border-accent/30">${t}</span>`).join('')}</div><div class="text-paper leading-relaxed whitespace-pre-wrap">${email.body}</div>`;
+    }
+
+    render();
+
+    // --- Spreadsheet Cycle Logic ---
+    const views = [
+      { name: "Products", url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MpsFQ1dZJ0O1ZJC1H3b6lp0O8aHKjfb_CSVAr8_FVfw6dnkscFqVw60HpdXrSBDVH6z1e3ksQYAh/pubhtml?gid=0&single=true&widget=true&headers=false" },
+      { name: "Calculations", url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MpsFQ1dZJ0O1ZJC1H3b6lp0O8aHKjfb_CSVAr8_FVfw6dnkscFqVw60HpdXrSBDVH6z1e3ksQYAh/pubhtml?gid=28813709&single=true&widget=true&headers=false" },
+      { name: "Formulas", url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MpsFQ1dZJ0O1ZJC1H3b6lp0O8aHKjfb_CSVAr8_FVfw6dnkscFqVw60HpdXrSBDVH6z1e3ksQYAh/pubhtml?gid=1895812540&single=true&widget=true&headers=false" }
+    ];
+    
+    let currentIndex = 0;
+    const iframe = document.getElementById('sheet-iframe');
+    const toggleBtn = document.getElementById('toggle-btn');
+    
+    if (iframe) {
+        iframe.src = views[0].url;
+    }
+    
+    if (toggleBtn) {
+        // Prevent adding multiple listeners if navigation happens
+        toggleBtn.replaceWith(toggleBtn.cloneNode(true));
+        const newToggleBtn = document.getElementById('toggle-btn');
+        newToggleBtn.addEventListener('click', () => {
+          currentIndex = (currentIndex + 1) % views.length;
+          iframe.src = views[currentIndex].url;
+          newToggleBtn.textContent = "View: " + views[currentIndex].name;
+        });
+    }
+  }
+
+  // Listen for both page load events
+  document.addEventListener('DOMContentLoaded', initPage);
+  document.addEventListener('astro:page-load', initPage);
+</script>
+</Layout>

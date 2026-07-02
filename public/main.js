@@ -1,34 +1,40 @@
 const initPortfolio = () => {
-  // Mobile Full Screen Menu Framework Trigger
+  // 1. MOBILE MENU LOGIC
   const menuToggle = document.querySelector('.menu-toggle');
   const mobileMenu = document.getElementById('mobileMenu');
 
   if (menuToggle && mobileMenu) {
-    // Strip old hanging click event handlers if any
-    menuToggle.onclick = null;
-    
-    menuToggle.addEventListener('click', () => {
-      const isExpanded = menuToggle.classList.toggle('active');
-      menuToggle.setAttribute('aria-expanded', isExpanded);
+    // Remove existing listeners to prevent duplicates on view transition swaps
+    const newMenuToggle = menuToggle.cloneNode(true);
+    menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+
+    newMenuToggle.addEventListener('click', () => {
+      const isExpanded = newMenuToggle.classList.toggle('active');
+      newMenuToggle.setAttribute('aria-expanded', isExpanded);
       mobileMenu.classList.toggle('open', isExpanded);
-      
-      // Freeze scrolling background behind full screen menu
       document.body.style.overflow = isExpanded ? 'hidden' : '';
     });
 
-    // Close screen menu immediately when user clicks individual panel links
-    const overlayLinks = mobileMenu.querySelectorAll('nav a');
-    overlayLinks.forEach(link => {
+    mobileMenu.querySelectorAll('nav a').forEach(link => {
       link.addEventListener('click', () => {
-        menuToggle.classList.remove('active');
-        menuToggle.setAttribute('aria-expanded', 'false');
+        newMenuToggle.classList.remove('active');
+        newMenuToggle.setAttribute('aria-expanded', 'false');
         mobileMenu.classList.remove('open');
         document.body.style.overflow = '';
       });
     });
   }
 
-  // Intersection Observer for scroll visibility elements
+  // 2. THEME TOGGLE LOGIC (Connects to your tailwind.config.mjs)
+  const themeToggle = document.querySelector('#theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  }
+
+  // 3. REVEAL ANIMATIONS (Intersection Observer)
   const revealElements = document.querySelectorAll('.reveal, .reveal-group > *');
   if ('IntersectionObserver' in window && revealElements.length > 0) {
     const observerOptions = { root: null, threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
@@ -45,7 +51,7 @@ const initPortfolio = () => {
     revealElements.forEach(el => el.classList.add('active'));
   }
 
-  // Auto layout timeline tick rendering tracker
+  // 4. RULER RENDERING
   const rulers = document.querySelectorAll('.ruler.static');
   rulers.forEach(ruler => {
     ruler.innerHTML = '';
@@ -58,7 +64,7 @@ const initPortfolio = () => {
       tick.style.width = '1px';
       if (i % 10 === 0) {
         tick.style.height = '100%';
-        tick.style.backgroundColor = 'var(--color-line)';
+        tick.style.backgroundColor = 'var(--color-line, #e2e8f0)'; // Added fallback color
       } else if (i % 5 === 0) {
         tick.style.height = '60%';
         tick.style.backgroundColor = 'rgba(42, 46, 56, 0.7)';
@@ -71,5 +77,6 @@ const initPortfolio = () => {
   });
 };
 
+// INITIALIZATION
 document.addEventListener('DOMContentLoaded', initPortfolio);
 document.addEventListener('astro:after-swap', initPortfolio);
