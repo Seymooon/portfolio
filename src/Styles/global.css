@@ -1,0 +1,299 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: var(--ink);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-paper: var(--paper);
+  --color-paper-dim: var(--paper-dim);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-highlight: var(--highlight);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+
+/* --- THEME ROOT ARCHITECTURE --- */
+
+/* DEFAULT: Dark Theme Palette Variables */
+:root, :root[data-theme="dark"] {
+  --ink: #11141a;          
+  --surface: #181d26;      
+  --surface-2: #212733;    
+  --line: #2d3545;         
+  --paper: #f4f6fa;        
+  --paper-dim: #8b95a6;    
+  --accent: #9dc4b6;       
+  --accent-dim: #7da395;   
+  --highlight: #ebd8b0;    
+  
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+}
+
+/* RESPONSIVE ALTERNATIVE: Light Theme Palette (Crisp White & Sophisticated Sage) */
+:root[data-theme="light"] {
+  --ink: #ffffff;         /* Pure crisp white backdrop */
+  --surface: #f4f7f5;     /* Clean light tint panels */
+  --surface-2: #e9efe9;   /* Inner-element containment contrast */
+  --line: #cbd5cb;        /* Soft sage-tint separator lines */
+  --paper: #1b2621;       /* Deep dark slate green text */
+  --paper-dim: #52635a;   /* Clean medium-dark sage descriptive text */
+  --accent: #4a6b5b;      /* Elegant deep sage green actions */
+  --accent-dim: #354d41;  /* Rich shadow sage balance */
+  --highlight: #876846;   /* Subdued secondary text callouts */
+}
+
+/* --- Structural Containment Framework Layers --- */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; 
+  position: relative;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+*, 
+*::before, 
+*::after {
+  box-sizing: border-box; 
+}
+
+body {
+  background-color: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+/* --- Responsive Layout & Header Settings --- */
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 500;
+}
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+.logo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--paper);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.logo-mark {
+  background: var(--accent);
+  color: var(--ink);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  transition: color 0.3s, background-color 0.3s;
+}
+/* The code now continues directly into the Mobile section */
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  margin-bottom: 0rem; /* Add this: forces 48px of space below the header */
+}
+
+/* Base Mobile-First Styles (Screens under 768px) */
+.nav-links, .nav-cta {
+  display: none !important; 
+}
+
+/* Full Screen Mobile Menu Display Settings */
+/* Update this block in your global.css */
+.mobile-overlay-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; 
+  height: 100vh;
+  /* Default background */
+  background-color: var(--ink); 
+  z-index: 200;
+  display: flex;
+  justify-content: flex-end; 
+  align-items: flex-start; 
+  padding-top: 90px; 
+  padding-right: 2rem; 
+  transform: translateY(-100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+}
+
+/* Midnight Gradient for Dark Mode */
+:root[data-theme="dark"] .mobile-overlay-menu {
+  background: linear-gradient(180deg, #11141a 0%, #0a0d12 100%);
+}
+
+.mobile-overlay-menu.open {
+  transform: translateY(0);
+}
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+  gap: 1.75rem; 
+}
+.mobile-nav-links a {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--paper-dim);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+.mobile-nav-links a:hover, .mobile-nav-links a.mobile-active {
+  color: var(--accent);
+}
+
+/* --- Desktop Breakpoints Media Rules (768px and up) --- */
+@media (min-width: 768px) {
+  .menu-toggle, .mobile-overlay-menu {
+    display: none !important; 
+  }
+  .nav-links {
+    display: flex !important;
+    gap: 2rem;
+  }
+  .nav-links a {
+    color: var(--paper-dim);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+  .nav-cta {
+    display: block !important;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+  }
+}
+
+/* --- Remaining UI Layout Mechanics --- */
+.timeline-track {
+  border-left: 2px solid var(--line);
+  margin-top: 3rem;
+  padding-left: 2rem;
+  position: relative;
+}
+.timeline-item { position: relative; margin-bottom: 3.5rem; }
+.timeline-item::before {
+  content: ''; position: absolute; left: calc(-2rem - 7px); top: 6px;
+  width: 12px; height: 12px; border-radius: 50%; background: var(--line);
+  transition: background 0.3s ease;
+}
+.timeline-item:hover::before { background: var(--accent); }
+.timecode {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 2rem; }
+.gallery-item {
+  aspect-ratio: 4/3; border-radius: var(--radius-sm);
+  border: 1px solid var(--line); display: grid; place-items: center; position: relative; overflow: hidden;
+  background: linear-gradient(145deg, var(--surface), var(--surface-2));
+  transition: border-color 0.3s;
+}
+:root[data-theme="dark"] .gallery-item {
+  background: linear-gradient(145deg, #1d232e, #13171f);
+}
+.gallery-item:hover {
+  border-color: var(--accent);
+}
+.gallery-item span { position: absolute; bottom: 10px; left: 12px; font-family: var(--font-mono); font-size: 10px; color: var(--paper-dim); }
+
+.ruler.static {
+  height: 12px; position: relative; width: 100%; overflow: hidden;
+  background-image: linear-gradient(to right, var(--line) 1px, transparent 1px);
+  background-size: 10px 100%; opacity: 0.4;
+}
+.divider-space { height: 2rem; }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+.tool-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+.tool-chip { display: flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1px solid var(--line); padding: 0.6rem 1.2rem; border-radius: 30px; font-family: var(--font-mono); font-size: 0.9rem; }
+.tool-icon { width: 16px; height: 16px; }
+
+.site-footer { 
+  background: var(--ink); 
+  border-top: 1px solid var(--line); 
+  /* Increase the top padding to 6rem (96px) to create the buffer */
+  padding: 2rem 0 3rem 0;
+  margin-top: auto; 
+  transition: background-color 0.3s; 
+}
+
+.reveal { opacity: 0; transform: translateY(15px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 860px) { .gallery-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .gallery-grid { grid-template-columns: 1fr; } }
+/* Close Button Styles */
+.menu-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--paper);
+  font-size: 1.5rem;
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 201; /* Must be higher than the menu z-index */
+}
+
+.menu-close-btn:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
