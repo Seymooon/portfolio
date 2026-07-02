@@ -28,12 +28,32 @@ const { activePage } = Astro.props;
 
 <div id="themePromptModal" class="theme-prompt-overlay hidden-prompt">
   <div class="theme-prompt-box">
+
     <h3>Choose Your Theme</h3>
     <p>Welcome! Please select your preferred appearance mode for the website.</p>
-    <div class="prompt-buttons">
-      <button id="promptLightModeBtn" class="prompt-btn light-btn">Light Mode</button>
-      <button id="promptDarkModeBtn" class="prompt-btn dark-btn">Dark Mode</button>
+
+    <div class="theme-options">
+
+      <!-- LIGHT OPTION -->
+      <button id="promptLightModeBtn" class="theme-card light-card">
+        <div class="theme-preview light-preview">
+          <div class="preview-bar"></div>
+          <div class="preview-content"></div>
+        </div>
+        <span>Light Mode</span>
+      </button>
+
+      <!-- DARK OPTION -->
+      <button id="promptDarkModeBtn" class="theme-card dark-card">
+        <div class="theme-preview dark-preview">
+          <div class="preview-bar"></div>
+          <div class="preview-content"></div>
+        </div>
+        <span>Dark Mode</span>
+      </button>
+
     </div>
+
   </div>
 </div>
 
@@ -55,6 +75,77 @@ const { activePage } = Astro.props;
   .theme-prompt-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(17, 20, 26, 0.85); backdrop-filter: blur(8px); z-index: 99999; display: flex; justify-content: center; align-items: center; }
   .hidden-prompt { display: none !important; }
   .theme-prompt-box { background: var(--surface); border: 1px solid var(--line); padding: 2.5rem; border-radius: 12px; text-align: center; max-width: 400px; width: 90%; }
+  .theme-options {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.theme-card {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.theme-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+/* PREVIEW BOX */
+.theme-preview {
+  width: 100%;
+  height: 90px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  position: relative;
+}
+
+/* LIGHT PREVIEW */
+.light-preview {
+  background: #f5f5f5;
+}
+
+.light-preview .preview-bar {
+  height: 18px;
+  background: #d1d5db;
+}
+
+.light-preview .preview-content {
+  height: 100%;
+  background: linear-gradient(to bottom, #ffffff, #f3f4f6);
+}
+
+/* DARK PREVIEW */
+.dark-preview {
+  background: #0f172a;
+}
+
+.dark-preview .preview-bar {
+  height: 18px;
+  background: #334155;
+}
+
+.dark-preview .preview-content {
+  height: 100%;
+  background: linear-gradient(to bottom, #1e293b, #0f172a);
+}
+
+/* LABEL */
+.theme-card span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
 </style>
 
 <script is:inline>
