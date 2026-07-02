@@ -74,7 +74,11 @@ const { activePage } = Astro.props;
     const desktopToggle = document.getElementById('desktopThemeToggle');
     const mobileToggle = document.getElementById('mobileThemeToggle');
 
-    if (!localStorage.getItem('user-portfolio-theme') && modal) { modal.classList.remove('hidden-prompt'); }
+    const saved = localStorage.getItem('user-portfolio-theme');
+
+if (!saved && modal) {
+  modal.classList.remove('hidden-prompt');
+}
 
     function saveTheme(themeName) {
       document.documentElement.setAttribute('data-theme', themeName);
@@ -91,5 +95,18 @@ const { activePage } = Astro.props;
     if (desktopToggle) desktopToggle.addEventListener('click', performToggle);
     if (mobileToggle) mobileToggle.addEventListener('click', performToggle);
   }
-  document.addEventListener('astro:page-load', setupHeaderInteractions);
+  function setupHeaderInteractions() {
+  const modal = document.getElementById('themePromptModal');
+  const lightBtn = document.getElementById('promptLightModeBtn');
+  const darkBtn = document.getElementById('promptDarkModeBtn');
+  const desktopToggle = document.getElementById('desktopThemeToggle');
+  const mobileToggle = document.getElementById('mobileThemeToggle');
+
+  if (!modal) return;
+
+  // ✅ ADD THIS BLOCK (prevents duplicate listeners)
+  if (window.__headerThemeInit) return;
+  window.__headerThemeInit = true;
+  setupHeaderInteractions();
+document.addEventListener('astro:page-load', setupHeaderInteractions);
 </script>
