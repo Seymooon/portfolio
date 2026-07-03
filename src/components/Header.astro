@@ -153,16 +153,15 @@ const { activePage } = Astro.props;
     const theme = localStorage.getItem('user-portfolio-theme') || 'dark';
     document.documentElement.setAttribute('data-theme', theme);
   }
+
   applyThemePreference();
-  document.addEventListener('astro:after-swap', applyThemePreference);
+  document.addEventListener('astro:page-load', applyThemePreference);
 </script>
 
 <script>
-  let initialized = false;
 
   function setupHeaderInteractions() {
     if (initialized) return;
-    initialized = true;
 
     const modal = document.getElementById('themePromptModal');
     const lightBtn = document.getElementById('promptLightModeBtn');
@@ -196,5 +195,5 @@ const { activePage } = Astro.props;
   }
 
   document.addEventListener('DOMContentLoaded', setupHeaderInteractions);
-  document.addEventListener('astro:after-swap', setupHeaderInteractions);
+
 </script>
