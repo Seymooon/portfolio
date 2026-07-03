@@ -159,10 +159,7 @@ const { activePage } = Astro.props;
 </script>
 
 <script>
-
   function setupHeaderInteractions() {
-    if (initialized) return;
-
     const modal = document.getElementById('themePromptModal');
     const lightBtn = document.getElementById('promptLightModeBtn');
     const darkBtn = document.getElementById('promptDarkModeBtn');
@@ -171,29 +168,53 @@ const { activePage } = Astro.props;
 
     if (!modal) return;
 
-    const saved = localStorage.getItem('user-portfolio-theme');
-
-    if (!saved) {
-      modal.classList.remove('hidden-prompt');
+    // ---------- THEME STATE ----------
+    function getTheme() {
+      return localStorage.getItem('user-portfolio-theme');
     }
 
-    function saveTheme(themeName) {
-      document.documentElement.setAttribute('data-theme', themeName);
-      localStorage.setItem('user-portfolio-theme', themeName);
-      modal.classList.add('hidden-prompt');
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('user-portfolio-theme', theme);
     }
 
     function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme');
-      saveTheme(current === 'light' ? 'dark' : 'light');
+      const current = document.documentElement.getAttribute('data-theme') || getTheme() || 'dark';
+      const next = current === 'light' ? 'dark' : 'light';
+      setTheme(next);
     }
 
-    lightBtn?.addEventListener('click', () => saveTheme('light'));
-    darkBtn?.addEventListener('click', () => saveTheme('dark'));
-    desktopToggle?.addEventListener('click', toggleTheme);
-    mobileToggle?.addEventListener('click', toggleTheme);
+    // ---------- FIRST TIME PROMPT ----------
+    const savedTheme = getTheme();
+
+    if (!savedTheme) {
+      modal.classList.remove('hidden-prompt');
+    } else {
+      // always apply saved theme on load
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+
+    function closePromptAndSet(theme) {
+      setTheme(theme);
+      modal.classList.add('hidden-prompt');
+    }
+
+    // ---------- IMPORTANT FIX: REMOVE OLD LISTENERS ----------
+    lightBtn.onclick = null;
+    darkBtn.onclick = null;
+    desktopToggle.onclick = null;
+    mobileToggle.onclick = null;
+
+    // ---------- RE-BIND CLEANLY ----------
+    lightBtn.onclick = () => closePromptAndSet('light');
+    darkBtn.onclick = () => closePromptAndSet('dark');
+    desktopToggle.onclick = toggleTheme;
+    mobileToggle.onclick = toggleTheme;
   }
 
-  document.addEventListener('DOMContentLoaded', setupHeaderInteractions);
+  // run immediately
+  setupHeaderInteractions();
 
+  // re-run after Astro navigation (IMPORTANT for SPA navigation)
+  document.addEventListener('astro:page-load', setupHeaderInteractions);
 </script>

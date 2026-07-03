@@ -5,30 +5,113 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Skills" activePage="skills">
   <main class="py-16">
     <div class="wrap">
-      <h2 class="text-4xl font-display font-bold mb-6">Skills & Specialties</h2>
-      
+
+      <h2 class="text-4xl font-display font-bold mb-6">
+        Skills & Specialties
+      </h2>
+
       <div class="timeline-track">
+
+        <!-- ITEM 1 -->
         <div class="timeline-item">
-          <span class="text-accent font-mono text-sm tracking-widest">OPERATIONS</span>
-          <h3 class="text-xl font-bold mb-2">Email and data management</h3>
-          <p class="text-paper-dim mb-4">Organizing communication flows, maintaining databases, and executing inbox zero strategies.</p>
-          <a href="/skill/email" class="text-accent hover:underline font-mono text-sm">Open &rarr;</a>
+          <span class="text-accent font-mono text-sm tracking-widest">
+            OPERATIONS
+          </span>
+
+          <h3 class="text-xl font-bold mb-2">
+            Email and data management
+          </h3>
+
+          <p class="text-paper-dim mb-4">
+            Organizing communication flows, maintaining databases, and executing inbox zero strategies.
+          </p>
+
+          <a href="/skill/email" class="pill-button">
+            View Samples
+          </a>
         </div>
 
+        <!-- ITEM 2 -->
         <div class="timeline-item">
-          <span class="text-accent font-mono text-sm tracking-widest">STRATEGY</span>
-          <h3 class="text-xl font-bold mb-2">Social media management</h3>
-          <p class="text-paper-dim mb-4">Content scheduling, community engagement, and brand consistency across platforms.</p>
-          <a href="/skill/social" class="text-accent hover:underline font-mono text-sm">Open &rarr;</a>
+          <span class="text-accent font-mono text-sm tracking-widest">
+            STRATEGY
+          </span>
+
+          <h3 class="text-xl font-bold mb-2">
+            Social media management
+          </h3>
+
+          <p class="text-paper-dim mb-4">
+            Content scheduling, community engagement, and brand consistency across platforms.
+          </p>
+
+          <a href="/skill/social" class="pill-button">
+            View Samples
+          </a>
         </div>
 
+        <!-- ITEM 3 -->
         <div class="timeline-item">
-          <span class="text-accent font-mono text-sm tracking-widest">MEDIA</span>
-          <h3 class="text-xl font-bold mb-2">Video and gfx samples</h3>
-          <p class="text-paper-dim mb-4">Dynamic post-production, motion assets, and custom graphic design compositions.</p>
-          <a href="/skill/media" class="text-accent hover:underline font-mono text-sm">Open &rarr;</a>
+          <span class="text-accent font-mono text-sm tracking-widest">
+            MEDIA
+          </span>
+
+          <h3 class="text-xl font-bold mb-2">
+            Video and gfx samples
+          </h3>
+
+          <p class="text-paper-dim mb-4">
+            Dynamic post-production, motion assets, and custom graphic design compositions.
+          </p>
+
+          <a href="/skill/media" class="pill-button">
+            View Samples
+          </a>
         </div>
+
       </div>
     </div>
   </main>
 </Layout>
+
+<style>
+  .pill-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+
+  background: var(--accent);
+
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  text-decoration: none;
+
+  transition: transform 0.2s ease, opacity 0.2s ease;
+
+  /* default fallback */
+  color: #ffffff;
+}
+
+/* LIGHT MODE */
+:root[data-theme="light"] .pill-button {
+  color: #ffffff;
+}
+
+/* DARK MODE */
+:root[data-theme="dark"] .pill-button {
+  color: #000000;
+}
+
+/* hover */
+.pill-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+</style>
