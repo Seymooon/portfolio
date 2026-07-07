@@ -1,100 +1,183 @@
 ---
-import Layout from '../layouts/Layout.astro';
-
-const services = [
-  {
-    title: "Basic Support",
-    items: [
-      { name: "Inbox & Communication Management", desc: "Handles emails and messages in an organized and professional way so nothing is missed." },
-      { name: "Calendar & Scheduling Support", desc: "Manages appointments, meetings, reminders, and scheduling to keep your day organized." }
-    ]
-  },
-  {
-    title: "Operations Support",
-    items: [
-      { name: "Task & Workflow Assistance", desc: "Organizing workflows and managing tasks using productivity tools like Google Workspace." },
-      { name: "Recruitment Coordination", desc: "Supports scheduling, screening, follow-ups, and candidate coordination." }
-    ]
-  },
-  {
-    title: "Business Support",
-    items: [
-      { name: "Social Media Assistance", desc: "Content planning, scheduling, and engagement support." },
-      { name: "Client Outreach", desc: "Professional outreach and follow-ups via email and messaging platforms." }
-    ]
-  }
-];
-
-const reviews = [
-  { name: "Sarah J.", text: "John is incredibly organized and reliable. A lifesaver for my inbox!" },
-  { name: "Mike T.", text: "The workflow management he implemented saved us hours every week." },
-  { name: "Elena R.", text: "Professional, proactive, and always keeps things on schedule." },
-  { name: "David L.", text: "Highly recommend his recruitment coordination services." }
-];
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Home" activePage="home">
-  <main class="wrap pt-12 md:pt-20 pb-32">
-    
-    <section class="hero-section pt-4 md:pt-12 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
-      
-      <div class="text-side text-left">
-        <span class="text-xs font-mono tracking-widest text-accent uppercase block mb-3">Focus on what matters. I'll handle the details.</span>
-        <h1 class="text-5xl md:text-6xl font-display font-bold text-paper mb-6 leading-tight">John Simon Gutang</h1>
-        <p class="text-lg text-paper-dim font-body mb-8 leading-relaxed text-justify">
-          I provide reliable virtual assistant support focused on organization, communication, and workflow management. 
-          I handle inbox management, scheduling, and administrative tasks to keep daily operations structured 
-          and efficient so you can focus on higher priority work.
-        </p>
-        
-        <div class="flex items-center justify-start gap-4 mb-12">
-          <a href="/skills" class="px-6 py-3 bg-accent text-ink rounded font-medium transition-opacity hover:opacity-90">View Portfolio</a>
-          <a href="/contact" class="px-6 py-3 border border-line text-paper rounded hover:bg-surface transition-colors">Let's Connect</a>
+
+  <main class="space-y-0">
+
+    <!-- HERO -->
+    <section class="wrap min-h-screen py-20 lg:flex lg:items-center pb-32">
+    <!-- Mobile tagline -->
+<div class="lg:hidden mb-8">
+  <span class="text-xs uppercase tracking-[0.35em] font-mono text-accent">
+    Administrative • Creative • Client Relations
+  </span>
+</div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+
+        <!-- TEXT -->
+        <div class="order-2 lg:order-1 max-w-2xl">
+
+          <span class="hidden lg:inline text-xs uppercase tracking-[0.35em] font-mono text-accent">
+            Administrative • Creative • Client Relations
+          </span>
+
+          <h1 class="mt-6 text-5xl sm:text-6xl lg:text-7xl font-display font-bold leading-[1.05] text-paper">
+            Focus on what matters.
+            <br />
+            I'll handle the details.
+          </h1>
+
+          <p class="mt-8 max-w-xl text-lg md:text-xl leading-relaxed text-paper-dim">
+            Helping businesses stay organized through administrative support,
+            creative media, and professional communication so you can focus on
+            growing your business.
+          </p>
+
+          <div class="mt-10 flex flex-wrap gap-4">
+
+            <a
+              href="/skills"
+              class="rounded-md bg-accent px-7 py-3 font-medium text-ink hover:opacity-90 transition"
+            >
+              View My Work
+            </a>
+
+            <a
+              href="/contact"
+              class="rounded-md border border-line px-7 py-3 text-paper hover:bg-surface transition"
+            >
+              Let's Connect
+            </a>
+
+          </div>
+
         </div>
 
-        <div class="carousel-wrapper w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]">
-          <div class="carousel-track flex gap-6">
-            {[...reviews, ...reviews].map((review) => (
-              <div class="min-w-[280px] p-4 border border-line bg-surface rounded-md flex-shrink-0">
-                <p class="text-paper-dim text-sm italic mb-2">"{review.text}"</p>
-                <p class="text-accent text-xs font-bold uppercase tracking-wider">— {review.name}</p>
-              </div>
-            ))}
-          </div>
+        <!-- IMAGE -->
+        <div class="order-1 lg:order-2 flex justify-center">
+
+          <img
+            src="/Photo.jpg"
+            alt="John Simon Gutang"
+            class="w-full max-w-sm md:max-w-md lg:max-w-lg rounded-3xl border border-line object-cover"
+          />
+
         </div>
+
       </div>
 
-      <div class="cards-grid grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
-        {services.map((group) => (
-          <div class="card p-6 border border-line bg-surface rounded-md hover:border-accent transition-colors">
-            <h3 class="text-paper font-display text-2xl mb-6 font-bold border-b border-line pb-4">{group.title}</h3>
-            <ul class="space-y-6">
-              {group.items.map((item) => (
-                <li>
-                  <h4 class="text-accent font-semibold text-sm uppercase tracking-wider mb-2">{item.name}</h4>
-                  <p class="text-paper-dim text-sm leading-relaxed">{item.desc}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
     </section>
 
-    <div class="h-32 w-full"></div>
-  </main>
-</Layout>
+    <!-- SERVICES -->
+    <section class="wrap pb-32">
 
-<style>
-  .carousel-track {
-    /* Reduced to 5s for a much faster speed */
-    animation: scroll 5s linear infinite;
-  }
-  .carousel-track:hover {
-    animation-play-state: paused;
-  }
-  @keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-</style>
+      <h2 class="text-4xl md:text-5xl font-display font-bold text-paper">
+        How I Can Help
+      </h2>
+
+      <div class="mt-12 mb-24 md:mb-32 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div class="rounded-xl border border-line bg-surface p-8">
+          <h3 class="mb-6 text-2xl font-display font-bold text-paper">
+            Administrative
+          </h3>
+
+          <ul class="space-y-4 text-paper-dim">
+            <li>• Inbox & Email Management</li>
+            <li>• Calendar Scheduling</li>
+            <li>• Data Entry & Organization</li>
+            <li>• Spreadsheet Management</li>
+          </ul>
+        </div>
+
+        <div class="rounded-xl border border-line bg-surface p-8">
+          <h3 class="mb-6 text-2xl font-display font-bold text-paper">
+            Creative
+          </h3>
+
+          <ul class="space-y-4 text-paper-dim">
+            <li>• Email Design</li>
+            <li>• Social Media Graphics</li>
+            <li>• Short-form Video Editing</li>
+            <li>• Content Planning</li>
+          </ul>
+        </div>
+
+        <div class="rounded-xl border border-line bg-surface p-8">
+          <h3 class="mb-6 text-2xl font-display font-bold text-paper">
+            Client Support
+          </h3>
+
+          <ul class="space-y-4 text-paper-dim">
+            <li>• Professional Communication</li>
+            <li>• Client Follow-ups</li>
+            <li>• Recruitment Coordination</li>
+            <li>• Social Media Management</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ABOUT + PORTFOLIO -->
+    <section class="wrap pb-12">
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-stretch">
+
+        <div class="flex flex-col h-full">
+
+          <h2 class="text-4xl font-display font-bold text-paper">
+            About Me
+          </h2>
+
+          <p class="mt-6 flex-1 max-w-lg leading-8 text-paper-dim">
+            Psychology graduate with experience in recruitment,
+            administrative operations, and creative media. I enjoy
+            creating organized systems, streamlining workflows,
+            and helping businesses operate more efficiently.
+          </p>
+
+          <a
+            href="/about"
+            class="mt-10 inline-flex text-accent hover:underline"
+          >
+            Learn More →
+          </a>
+
+        </div>
+
+        <div class="flex flex-col h-full">
+
+          <h2 class="text-4xl font-display font-bold text-paper">
+            Featured Work
+          </h2>
+
+          <p class="mt-6 flex-1 max-w-lg leading-8 text-paper-dim">
+            Browse projects in email marketing, visual design,
+            social media, recruitment support, and administrative
+            systems designed to help businesses communicate more effectively.
+          </p>
+
+          <a
+            href="/skills"
+            class="mt-10 inline-flex text-accent hover:underline"
+          >
+            View Portfolio →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Space before footer -->
+    <div class="h-12"></div>
+
+  </main>
+
+</Layout>
